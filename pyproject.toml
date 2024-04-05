@@ -6,3 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "package-tracker_flask"
 version = "1.0.0"
 dependencies = ["flask", "redis"]
+
+[project.optional-dependencies]
+dev = ["pytest",]
