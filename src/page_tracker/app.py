@@ -1,15 +1,20 @@
 from functools import cache
 
 from flask import Flask
-from redis import Redis
+from redis import Redis, RedisError
 
 app = Flask(__name__)
 
 
 @app.get("/")
 def index():
-    page_views = redis().incr("page_views")
-    return f"Эту страницу просматривали {page_views} раз."
+    try:
+        page_views = redis().incr("page_views")
+    except RedisError:
+        app.logger.exception("Redis error")
+        return "Простите, что то не так \N{pensive face}", 500
+    else:
+        return f"Эту страницу просматривали {page_views} раз."
 
 
 @cache
