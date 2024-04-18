@@ -9,13 +9,14 @@ app = Flask(__name__)
 
 @app.get("/")
 def index():
+    """Обработчик запроса главной страницы."""
     try:
         page_views = redis().incr("page_views")
     except RedisError:
         app.logger.exception("Redis error")
         return "Простите, что то не так \N{pensive face}", 500
-    else:
-        return f"Эту страницу просматривали {page_views} раз."
+
+    return f"Эту страницу просматривали {page_views} раз."
 
 
 @cache
