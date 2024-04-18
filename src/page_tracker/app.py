@@ -1,3 +1,4 @@
+import os
 from functools import cache
 
 from flask import Flask
@@ -21,4 +22,4 @@ def index():
 def redis():
     """Кешируем экземпляр клиента для гарантии
     единичного экземпляра в памяти Синглтон"""
-    return Redis()
+    return Redis.from_url(os.getenv("REDIS_URL", "redis://localhost:6379"))
