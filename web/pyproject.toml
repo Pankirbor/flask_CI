@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "package-tracker_flask"
 version = "1.0.0"
-dependencies = ["flask", "redis"]
+dependencies = ["flask", "redis", "gunicorn"]
 
 [project.optional-dependencies]
 dev = [
