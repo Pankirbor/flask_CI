@@ -23,6 +23,8 @@ RUN python -m pip install . -c constraints.txt && python -m pytest test/unit/ &&
     python -m bandit -r src/ --quiet && \
     python -m pip wheel --wheel-dir dist/ . -c constraints.txt
 
+
+
 FROM python:3.11.9-slim-bullseye
 
 RUN apt-get update && apt-get upgrade --yes
@@ -35,9 +37,10 @@ ENV VIRTUALENV=/home/cur_user/venv
 RUN python3 -m venv ${VIRTUALENV}
 ENV PATH="${VIRTUALENV}/bin:${PATH}"
 
-COPY --from=builder home/cur_user/dist/page_tracker*.whl /home/cur_user/
+COPY --from=builder home/cur_user/dist/package_tracker_flask*.whl /home/cur_user
+RUN ls
 RUN python -m pip install --upgrade pip setuptools && \
-    python -m pip install --no-cache-dir page_tracker*.whl
+    python -m pip install --verbose --no-cache-dir package_tracker_flask*.whl
 
 
 CMD [ "flask", "--app", "page_tracker.app", "run", "--host", "0.0.0.0", "--port", "5000" ]
